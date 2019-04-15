@@ -52,5 +52,11 @@ namespace CineMovies.Models
         [JsonProperty("vote_average")]
         public double VoteAverage { get; set; }
 
+        [JsonIgnore]
+        public string DateReleaseFormat => $"Lançamento: {ReleaseDate?.ToString("dd/MM/yyyy")}"; 
+
+        [JsonIgnore]
+        public string ImagePosterFormat => AppSettings.ImageOriginalUrl + PosterPath;
+
     }
 }

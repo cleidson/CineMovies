@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CineMovies.Views;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +12,7 @@ namespace CineMovies
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new MoviesPage();
         }
 
         protected override void OnStart()

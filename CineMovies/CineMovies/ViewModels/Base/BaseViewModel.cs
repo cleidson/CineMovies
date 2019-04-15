@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CineMovies.ViewModels.Base
 {
@@ -10,11 +11,20 @@ namespace CineMovies.ViewModels.Base
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool _busy;
-        public bool Busy
+        private bool isRefreshing;
+
+        public bool IsRefreshing
         {
-            get { return _busy; }
-            set { SetProperty(ref _busy, value); }
+            get => isRefreshing;
+            set => SetProperty(ref isRefreshing, value);
+        }
+
+
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { SetProperty(ref _isBusy, value); }
         }
 
         private string _title;
@@ -48,6 +58,11 @@ namespace CineMovies.ViewModels.Base
             storage = value;
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public virtual Task InitializeAsync(object navigationData)
+        {
+            return Task.FromResult(false);
         }
     }
 }
