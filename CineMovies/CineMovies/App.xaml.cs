@@ -10,6 +10,7 @@ namespace CineMovies
     {
         public App()
         {
+            LiveReload.Init();
             InitializeComponent();
 
             MainPage = new MoviesPage();

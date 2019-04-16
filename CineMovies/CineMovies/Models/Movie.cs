@@ -23,10 +23,10 @@ namespace CineMovies.Models
         public DateTime? ReleaseDate { get; set; }
 
         [JsonProperty("genre_ids")]
-        public int[] GenreIds { get; set; }
+        public List<int> GenreIds { get; set; }
 
         [JsonProperty("genres")]
-        public IReadOnlyList<Genre> Genres { get; set; }
+        public List<Genre> Genres { get; set; }
 
         [JsonProperty("original_title")]
         public string OriginalTitle { get; set; }
@@ -58,5 +58,11 @@ namespace CineMovies.Models
         [JsonIgnore]
         public string ImagePosterFormat => AppSettings.ImageOriginalUrl + PosterPath;
 
+        [JsonIgnore]
+        public string NameGenres { get; set; }
+
+
+        [JsonIgnore]
+        public int CountItem { get; set; }
     }
 }

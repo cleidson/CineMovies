@@ -11,14 +11,6 @@ namespace CineMovies.ViewModels.Base
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool isRefreshing;
-
-        public bool IsRefreshing
-        {
-            get => isRefreshing;
-            set => SetProperty(ref isRefreshing, value);
-        }
-
 
         private bool _isBusy;
         public bool IsBusy
