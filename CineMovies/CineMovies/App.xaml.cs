@@ -11,9 +11,8 @@ namespace CineMovies
         public App()
         {
             LiveReload.Init();
-            InitializeComponent();
-
-            MainPage = new MoviesPage();
+            InitializeComponent(); 
+            MainPage = new NavigationPage(new MoviesPage());
         }
 
         protected override void OnStart()

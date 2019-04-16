@@ -45,6 +45,8 @@ namespace CineMovies.ViewModels
 
         public Command<int> MoviesCommand { get; }
 
+        public Command<Movie> MovieDetailsCommand { get; }
+
         public ObservableCollection<Movie> Movies
         {
             get { return movies; }
@@ -62,11 +64,13 @@ namespace CineMovies.ViewModels
             MoviesService = new MovieService();
             GenresService = new GenreService();
             MoviesCommand = new Command<int>(async (e) => await GetMovies(e));
-            SearchBarCommand = new Command<int>(async (e) => await SearchMovie(e));   
+            SearchBarCommand = new Command<int>(async (e) => await SearchMovie(e));
+            MovieDetailsCommand = new Command<Movie>(async (e) => await MovieDetails(e));
         }
-        #endregion 
+        #endregion
 
-        public async Task SearchMovie(int page = 1)
+        #region Movie
+        private async Task SearchMovie(int page = 1)
         {
             if (IsBusy)
             {
@@ -90,9 +94,7 @@ namespace CineMovies.ViewModels
                 IsBusy = false;
             }
         }
-
-
-        public async Task GetMovies(int page = 1)
+        private async Task GetMovies(int page = 1)
         {
             if (IsBusy || page > totalPages)
             {
@@ -113,6 +115,33 @@ namespace CineMovies.ViewModels
                 IsBusy = false;
             }
         }
+        #endregion
+
+        #region Details 
+        private async Task MovieDetails(Movie movie)
+        {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            try
+            {
+                IsBusy = true;
+                await PushAsync<MovieDetailsViewModel>(movie);
+            
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro", $"Erro:{ex.Message}", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        #endregion
 
         public async Task LoadListAsync(int page = 1, string query = null)
         { 

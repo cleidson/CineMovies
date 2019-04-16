@@ -62,5 +62,12 @@ namespace CineMovies.Views
                 MoviesVmToBindContext.SearchBarCommand.Execute(countSearch++);
             }
         }
+
+        private void Movies_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var item = (Movie)e.Item;
+            if (item == null || MoviesVmToBindContext.IsBusy) { return; }
+            MoviesVmToBindContext.MovieDetailsCommand.Execute(item);
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace CineMovies.ViewModels.Base
 {
@@ -41,7 +42,7 @@ namespace CineMovies.ViewModels.Base
         protected void OnPropertyChanged([CallerMemberName] string PropertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PropertyName)));
 
-         
+
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(storage, value))
@@ -56,5 +57,41 @@ namespace CineMovies.ViewModels.Base
         {
             return Task.FromResult(false);
         }
+
+        public async Task PushAsync<TViewModel>(params object[] args) where TViewModel : BaseViewModel
+        {
+            var viewModelType = typeof(TViewModel);
+            var viewModelTypeName = viewModelType.Name;
+            var viewTypeName = $"CineMovies.Views.{viewModelTypeName.Substring(0, viewModelTypeName.Length - 9)}Page";
+            var viewType = Type.GetType(viewTypeName);
+
+            var page = Activator.CreateInstance(viewType) as Page; 
+
+
+            var viewModel = Activator.CreateInstance(viewModelType, args);
+            if (page != null)
+            {
+                page.BindingContext = viewModel;
+            }
+
+            await Application.Current.MainPage.Navigation.PushAsync(page);
+        }
+
+        public Task PopAsync()
+        {
+            return Application.Current.MainPage.Navigation.PopAsync();
+        }
+     
+        public async Task DisplayAlert(string title, string message, string cancel)
+        {
+            await Application.Current.MainPage.DisplayAlert(title, message, cancel);
+        }
+
+        public async Task DisplayAlert(string title, string message, string accept, string cancel)
+        {
+            await Application.Current.MainPage.DisplayAlert(title, message, accept, cancel);
+        }
+
+
     }
 }
